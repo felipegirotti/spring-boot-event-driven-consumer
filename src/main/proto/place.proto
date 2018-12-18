@@ -1,0 +1,29 @@
+
+
+// - syntax, package, option
+syntax = "proto3";
+
+package com.drz;
+
+option java_multiple_files = true;
+
+message PlaceGeoLocationRequest {
+    double lat = 1;
+    double lon = 2;
+    int64 clientId = 3;
+}
+
+message PlaceResponse {
+    string name = 1;
+    int64 clientId = 2;
+    double lat = 3;
+    double lon = 4;
+}
+
+message PlaceGeoLocationResponse {
+    repeated PlaceResponse data = 1;
+}
+
+service PlaceGeoLocationService {
+    rpc near(PlaceGeoLocationRequest) returns (PlaceGeoLocationResponse);
+}
