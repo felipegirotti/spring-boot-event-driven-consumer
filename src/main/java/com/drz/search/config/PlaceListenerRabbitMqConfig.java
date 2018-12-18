@@ -16,7 +16,7 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 @Configuration
 @ConfigurationProperties(prefix = "place.listener")
 @Data
-public class PlaceListenerConfig extends SpringBootServletInitializer implements RabbitListenerConfigurer {
+public class PlaceListenerRabbitMqConfig extends SpringBootServletInitializer implements RabbitListenerConfigurer {
 
     private String topicExchangeName;
 
