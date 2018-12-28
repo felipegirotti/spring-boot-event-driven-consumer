@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.1.RELEASE</version>
+		<version>2.0.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.drz</groupId>
@@ -15,9 +15,23 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<grpc-spring-boot-starter.version>3.0.0</grpc-spring-boot-starter.version>
+		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -25,23 +39,6 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>io.grpc</groupId>-->
-			<!--<artifactId>grpc-netty-shaded</artifactId>-->
-			<!--<version>1.17.1</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>io.grpc</groupId>-->
-			<!--<artifactId>grpc-protobuf</artifactId>-->
-			<!--<version>1.17.1</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>io.grpc</groupId>-->
-			<!--<artifactId>grpc-stub</artifactId>-->
-			<!--<version>1.17.1</version>-->
-		<!--</dependency>-->
-
-		<!-- https://mvnrepository.com/artifact/org.lognet/grpc-spring-boot-starter -->
 		<dependency>
 			<groupId>io.github.lognet</groupId>
 			<artifactId>grpc-spring-boot-starter</artifactId>

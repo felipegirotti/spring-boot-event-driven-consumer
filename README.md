@@ -1,4 +1,30 @@
-# SEARCH MICROSERVICE
+# SEARCH MICROSERVICE - Event Driven with SpringBoot and RabbitMQ or SNS Consumer
+This is a simple example of microservice, we are using the event driven architecture, this is a typical consumer.
+
+The master branch uses RabbitMQ, the branch `sns-1` we change the broker to sns instead rabbitmq, see more details [here](#using-SNS/SQS).
+
+For more details of producer, see the example here: [https://github.com/felipegirotti/spring-boot-event-driven-producer](https://github.com/felipegirotti/spring-boot-event-driven-producer)
+
+## gRPC   
+We expose the data via [gRPC](https://grpc.io/). The [protofile](src/main/proto/place.proto) 
+
+## Using SNS/SQS
+To more details about how SNS works [click here](https://aws.amazon.com/sns/)   
+First, change the branch for `sns-1`       
+   
+You need setup into AWS:
+ - create a SNS topic
+ - create a SQS to subscribe the SNS
+ - create a user with the permission to send to SNS
+ 
+ Use your credentials into the proper env vars and the topic name
+ ```bash
+ SQS_QUEUE_NAME={{YOUR_QUEUE_NAME}}
+ AWS_CREDENTIAL_KEY_ID={{YOUR_KEY_ID}}
+ AWS_CREDENTIAL_SECRET={{YOUR_SECRET}}
+ AWS_REGION_STATIC={{YOU_REGION}}
+ ```
+ The region should be capitalize e.g `US-WEST-2`
 
 ## Run local
 We are using env variables to setup the database properties and others configs  
