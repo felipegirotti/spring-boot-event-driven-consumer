@@ -1,6 +1,6 @@
 package com.drz.search.config;
 
-import com.drz.search.persistence.listener.PlaceListenerSQSImpl;
+import com.drz.search.infrastructure.listener.PlaceListenerSQSImpl;
 import com.drz.search.persistence.repository.SearchRepository;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

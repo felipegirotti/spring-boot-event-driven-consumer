@@ -1,4 +1,4 @@
-package com.drz.search.persistence.listener;
+package com.drz.search.infrastructure.listener;
 
 import com.drz.search.dto.place.PlaceDTO;
 import com.drz.search.dto.place.PlaceSQSMessage;
