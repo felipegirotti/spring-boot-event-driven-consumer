@@ -1,7 +1,7 @@
 # SEARCH MICROSERVICE - Event Driven with SpringBoot and RabbitMQ or SNS Consumer
 This is a simple example of microservice, we are using the event driven architecture, this is a typical consumer.
 
-The master branch uses RabbitMQ, the branch `sns-1` we change the broker to sns instead rabbitmq, see more details [here](#using-SNS/SQS).
+The master branch uses RabbitMQ, the branch `sns-1` we change the broker to sns instead rabbitmq, see more details [here](#using-snssqs).
 
 For more details of producer, see the example here: [https://github.com/felipegirotti/spring-boot-event-driven-producer](https://github.com/felipegirotti/spring-boot-event-driven-producer)
 
@@ -35,6 +35,8 @@ export $(cat .env.example | xargs)
 ```
 
 ## ES
+Some configurations is necessary before (Mappings and Enable to write in the ElasticSearch)
+
 ### Mappings
 PUT /places
 ```json
