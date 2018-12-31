@@ -6,7 +6,7 @@ The master branch uses RabbitMQ, the branch `sns-1` we change the broker to sns 
 For more details of producer, see the example here: [https://github.com/felipegirotti/spring-boot-event-driven-producer](https://github.com/felipegirotti/spring-boot-event-driven-producer)
 
 ## gRPC   
-We expose the data via [gRPC](https://grpc.io/). The [protofile](src/main/proto/place.proto) 
+We expose the data via [gRPC](https://grpc.io/). The [protofile](src/main/proto/search.proto) 
 
 ## Using SNS/SQS
 To more details about how SNS works [click here](https://aws.amazon.com/sns/)   
@@ -38,12 +38,39 @@ export $(cat .env.example | xargs)
 Some configurations is necessary before (Mappings and Enable to write in the ElasticSearch)
 
 ### Mappings
+
+### Client
+PUT /clients
+```json
+{
+       "mappings": {
+           "client": {
+               "properties": {
+                     "id": {"type": "long"},
+                     "location": {"type": "geo_point"},
+                     "name": { 
+                        "type": "text",
+                        "fields": {
+                           "keyword": {
+                               "type": "keyword",
+                               "ignore_above": 256
+                           }
+                       }
+                     }
+                }
+           }
+       }
+   }
+```
+
+### Places
 PUT /places
 ```json
 {
        "mappings": {
            "place": {
                "properties": {
+                     "id": {"type": "long"},
                      "name": { "type": "text" },
                      "client_id": {"type": "long"},
                      "location": {"type": "geo_point"}
@@ -70,17 +97,17 @@ PUT /_bulk
 
 ```json
 { "index" : { "_index" : "places", "_type" : "place", "_id" : "1" } }
-{"name":"DRZ Geotecnologia e Consultoria","client_id":1,"location":{"lat":-23.3103803,"lon":-51.1658525}}
+{"id": 1, "name":"DRZ Geotecnologia e Consultoria","client_id":1,"location":{"lat":-23.3103803,"lon":-51.1658525}}
+{ "index" : { "_index" : "places", "_type" : "place", "_id" : "2" } }
+{"id": 2,"name":"Itau agencia higienopolis","client_id":1,"location":{"lat":-23.3103803,"lon":-51.1763226}}
 { "index" : { "_index" : "places", "_type" : "place", "_id" : "3" } }
-{"name":"Itau agencia higienopolis","client_id":1,"location":{"lat":-23.3103803,"lon":-51.1763226}}
+{"id": 3, "name":"Banco do Brasil Estilo","client_id":1,"location":{"lat":-23.3103803,"lon":-51.1667319}}
 { "index" : { "_index" : "places", "_type" : "place", "_id" : "4" } }
-{"name":"Banco do Brasil Estilo","client_id":1,"location":{"lat":-23.3103803,"lon":-51.1667319}}
+{"id": 4, "name":"Caixa Ecomonica Federal","client_id":1,"location":{"lat":-23.3114913,"lon":-51.1660693}}
 { "index" : { "_index" : "places", "_type" : "place", "_id" : "5" } }
-{"name":"Caixa Ecomonica Federal","client_id":1,"location":{"lat":-23.3114913,"lon":-51.1660693}}
+{"id": 5, "name":"Bradesco Minas Gerais","client_id":1,"location":{"lat":-23.3116208,"lon":-51.1572625}}
 { "index" : { "_index" : "places", "_type" : "place", "_id" : "6" } }
-{"name":"Bradesco Minas Gerais","client_id":1,"location":{"lat":-23.3116208,"lon":-51.1572625}}
-{ "index" : { "_index" : "places", "_type" : "place", "_id" : "7" } }
-{"name":"Banco Do Brasil Mato Grosso","client_id":1,"location":{"lat":-23.3116208,"lon":-51.1572625}}
+{"id": 6, "name":"Banco Do Brasil Mato Grosso","client_id":1,"location":{"lat":-23.3116208,"lon":-51.1572625}}
 ```
 
 ### Search

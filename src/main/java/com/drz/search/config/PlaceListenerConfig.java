@@ -18,8 +18,6 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 @Data
 public class PlaceListenerConfig extends SpringBootServletInitializer implements RabbitListenerConfigurer {
 
-    private String topicExchangeName;
-
     private String topicName;
 
     private String topicDeleteName;
@@ -39,7 +37,6 @@ public class PlaceListenerConfig extends SpringBootServletInitializer implements
     public PlaceListenerRabbitImpl placeListener(SearchRepository searchRepository) {
         return new PlaceListenerRabbitImpl(searchRepository, topicName, topicDeleteName);
     }
-
 
     @Override
     public void configureRabbitListeners(final RabbitListenerEndpointRegistrar registrar) {

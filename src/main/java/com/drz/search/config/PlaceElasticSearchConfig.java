@@ -26,6 +26,8 @@ public class PlaceElasticSearchConfig {
 
     private String indexTypePlace;
 
+    private String indexTypeClient;
+
     @Bean
     public RestOperations restOperations()  {
         return new BaseHttpClient(connectionTimeout, readTimeout, maxConnections).getRestTemplate();
@@ -38,6 +40,6 @@ public class PlaceElasticSearchConfig {
 
     @Bean
     public SearchRepository searchRepository(SearchClient searchClient) {
-        return new SearchRepositoryImpl(searchClient, indexTypePlace);
+        return new SearchRepositoryImpl(searchClient, indexTypePlace, indexTypeClient);
     }
 }

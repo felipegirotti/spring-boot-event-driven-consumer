@@ -51,4 +51,10 @@ public class SearchClient {
             }
         }
     }
+
+    public <T> ResponseEntity<T> get(String path, Class<T> clazz) {
+        HttpEntity<String> entityReq = new HttpEntity<>("parameters", buildHeaders());
+
+        return restOperations.exchange(buildUrl(path), HttpMethod.GET, entityReq, clazz);
+    }
 }

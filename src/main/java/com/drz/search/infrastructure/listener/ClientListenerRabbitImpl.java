@@ -1,6 +1,6 @@
 package com.drz.search.infrastructure.listener;
 
-import com.drz.search.dto.place.PlaceDTO;
+import com.drz.search.dto.client.ClientDTO;
 import com.drz.search.persistence.repository.SearchRepository;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 
-public class PlaceListenerRabbitImpl {
+public class ClientListenerRabbitImpl implements ClientListener {
 
     private SearchRepository searchRepository;
 
@@ -18,27 +18,25 @@ public class PlaceListenerRabbitImpl {
 
     private String routingKeyDelete;
 
-    public PlaceListenerRabbitImpl(SearchRepository searchRepository, String routingKeySave, String routingKeyDelete) {
+    public ClientListenerRabbitImpl(SearchRepository searchRepository, String routingKeySave, String routingKeyDelete) {
         this.searchRepository = searchRepository;
         this.routingKeySave = routingKeySave;
         this.routingKeyDelete = routingKeyDelete;
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "${place.listener.queue-name}", durable = "true"),
-            exchange = @Exchange(value = "${place.listener.topic-exchange-name}", ignoreDeclarationExceptions = "true",  type = ExchangeTypes.TOPIC)
+            value = @Queue(value = "${client.listener.queue-name}", durable = "true"),
+            exchange = @Exchange(value = "${client.listener.topic-exchange-name}", ignoreDeclarationExceptions = "true",  type = ExchangeTypes.TOPIC)
     ))
-    public void receive(@Header("amqp_receivedRoutingKey") String routingKey, @Payload PlaceDTO placeDTO) {
-        System.out.println("routingKey:" + routingKey + " --- " + this.routingKeySave);
-        System.out.println("OBJ:" + placeDTO);
+    public void receive(@Header("amqp_receivedRoutingKey") String routingKey, @Payload ClientDTO clientDTO) {
 
         if (routingKeySave.equals(routingKey)) {
-            searchRepository.save(placeDTO);
+            searchRepository.save(clientDTO);
             return;
         }
 
         if (routingKeyDelete.equals(routingKey)) {
-            searchRepository.deletePlace(placeDTO.getId());
+            searchRepository.deletePlace(clientDTO.getId());
         }
     }
 }

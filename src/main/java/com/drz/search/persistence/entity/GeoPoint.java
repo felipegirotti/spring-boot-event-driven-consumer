@@ -1,4 +1,4 @@
-package com.drz.search.dto.place;
+package com.drz.search.persistence.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -26,6 +26,4 @@ public class PlaceDTO {
 
     @NotNull
     private Double longitude;
-
-    private GeoPoint location;
 }

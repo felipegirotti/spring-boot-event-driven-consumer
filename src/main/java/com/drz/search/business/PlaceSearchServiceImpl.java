@@ -5,8 +5,11 @@ import com.drz.PlaceGeoLocationResponse;
 import com.drz.PlaceGeoLocationServiceGrpc;
 import com.drz.PlaceResponse;
 import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.lognet.springboot.grpc.GRpcService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @GRpcService
 public class PlaceSearchServiceImpl extends PlaceGeoLocationServiceGrpc.PlaceGeoLocationServiceImplBase {
@@ -21,14 +24,28 @@ public class PlaceSearchServiceImpl extends PlaceGeoLocationServiceGrpc.PlaceGeo
     @Override
     public void near(PlaceGeoLocationRequest request, StreamObserver<PlaceGeoLocationResponse> responseObserver) {
 
-        PlaceResponse placeResponse = PlaceResponse.newBuilder()
-                .setClientId(1)
-                .setLat(1D)
-                .setLon(2D)
-                .setName("Name")
-                .build();
         System.out.println(request);
-        responseObserver.onNext(PlaceGeoLocationResponse.newBuilder().addData(placeResponse).build());
+
+        List<PlaceResponse> response = searchService.search(
+                0,
+                10,
+                request.getLat(),
+                request.getLon(),
+                request.getClientId(),
+                request.getDistance()
+        )
+                .stream()
+                .map(p -> {
+                    return PlaceResponse.newBuilder()
+//                            .setClientId(p.getClientId())
+                            .setLat(p.getLatitude())
+                            .setLon(p.getLongitude())
+                            .setName(p.getName())
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        responseObserver.onNext(PlaceGeoLocationResponse.newBuilder().addAllData(response).build());
 
         responseObserver.onCompleted();
     }

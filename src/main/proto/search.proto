@@ -11,6 +11,14 @@ message PlaceGeoLocationRequest {
     double lat = 1;
     double lon = 2;
     int64 clientId = 3;
+    int64 distance = 4;
+}
+
+message ClientResponse {
+    int64 id = 1;
+    string name = 2;
+    double lat = 3;
+    double lon = 4;
 }
 
 message PlaceResponse {
@@ -24,6 +32,19 @@ message PlaceGeoLocationResponse {
     repeated PlaceResponse data = 1;
 }
 
+message ClientRequest {
+    int64 from = 1;
+    int64 size = 2;
+}
+
+message ClientsResponse {
+    repeated ClientResponse data = 1;
+}
+
 service PlaceGeoLocationService {
     rpc near(PlaceGeoLocationRequest) returns (PlaceGeoLocationResponse);
+}
+
+service ClientService {
+    rpc all(ClientRequest) returns (ClientsResponse);
 }
