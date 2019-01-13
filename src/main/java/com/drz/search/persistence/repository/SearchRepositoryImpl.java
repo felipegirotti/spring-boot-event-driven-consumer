@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
 import org.elasticsearch.index.query.GeoDistanceQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,10 +123,10 @@ public class SearchRepositoryImpl implements SearchRepository {
     }
 
     @Override
-    public List<PlaceDTO> searchByGeoLocation(Integer from, Integer size, double lat, double lon, Long clientId, Long distanceMeters) {
-        GeoDistanceQueryBuilder geoBuilder = geoDistanceQuery("location")
-                .point(lat, lon)
-                .distance(distanceMeters, DistanceUnit.METERS);
+    public List<PlaceDTO> searchByGeoLocation(Integer from, Integer size, GeoPoint topLeft, GeoPoint bottomRight, Long clientId) {
+        GeoBoundingBoxQueryBuilder geoBuilder = geoBoundingBoxQuery("location")
+                .setCorners(topLeft.getLat(), topLeft.getLon(), bottomRight.getLat(), bottomRight.getLon());
+
 
         BoolQueryBuilder filter = boolQuery().must(termQuery("client_id", clientId))
                 .filter(geoBuilder);

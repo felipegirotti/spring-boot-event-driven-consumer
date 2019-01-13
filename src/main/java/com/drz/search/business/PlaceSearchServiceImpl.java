@@ -4,8 +4,11 @@ import com.drz.PlaceGeoLocationRequest;
 import com.drz.PlaceGeoLocationResponse;
 import com.drz.PlaceGeoLocationServiceGrpc;
 import com.drz.PlaceResponse;
+import com.drz.search.persistence.entity.GeoPoint;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -13,6 +16,8 @@ import java.util.stream.Collectors;
 
 @GRpcService
 public class PlaceSearchServiceImpl extends PlaceGeoLocationServiceGrpc.PlaceGeoLocationServiceImplBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlaceSearchServiceImpl.class);
 
     private SearchService searchService;
 
@@ -23,16 +28,14 @@ public class PlaceSearchServiceImpl extends PlaceGeoLocationServiceGrpc.PlaceGeo
 
     @Override
     public void near(PlaceGeoLocationRequest request, StreamObserver<PlaceGeoLocationResponse> responseObserver) {
-
-        System.out.println(request);
+        LOGGER.info(request.toString());
 
         List<PlaceResponse> response = searchService.search(
-                0,
-                10,
-                request.getLat(),
-                request.getLon(),
-                request.getClientId(),
-                request.getDistance()
+                request.getFrom(),
+                request.getSize(),
+                new GeoPoint(request.getTopLeft().getLat(), request.getTopLeft().getLon()),
+                new GeoPoint(request.getBottomRight().getLat(), request.getBottomRight().getLon()),
+                request.getClientId()
         )
                 .stream()
                 .map(p -> {

@@ -7,11 +7,17 @@ package com.drz;
 
 option java_multiple_files = true;
 
-message PlaceGeoLocationRequest {
+message PlaceGeoPoint {
     double lat = 1;
     double lon = 2;
-    int64 clientId = 3;
-    int64 distance = 4;
+}
+
+message PlaceGeoLocationRequest {
+    int32 from = 1;
+    int32 size = 2;
+    PlaceGeoPoint topLeft = 3;
+    PlaceGeoPoint bottomRight = 4;
+    int64 clientId = 5;
 }
 
 message ClientResponse {
